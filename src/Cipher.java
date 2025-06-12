@@ -1,7 +1,24 @@
-public class CaesarCipher {
+public class Cipher {
 
     // Alphabet
-    private static final String ALPHABET = "our alphabet will be here";
+    private static final char[] ALPHABET = buildAlphaber();
+
+    private static char[] buildAlphaber() {
+        StringBuilder alphabet = new StringBuilder();
+
+        for (char i = 'a'; i <= 'z' ; i++) //append lower case
+        {
+            alphabet.append(i);
+        }
+        for (char i = 'A'; i <= 'Z' ; i++)//append upper case
+        {
+            alphabet.append(i);
+        }
+
+        alphabet.append(".,\"':-!? ");
+
+        return alphabet.toString().toCharArray();
+    }
 
     // Methods for encryption, decryption, brute force, statistical analysis
 
@@ -26,7 +43,7 @@ public class CaesarCipher {
     // Helper methods: validateInput(), createAlphabet(), shiftCharacter(), readFile(), writeFile()
 
     public static void main(String[] args) {
-        CaesarCipher cipher = new CaesarCipher();
+        Cipher cipher = new Cipher();
         // Menu logic
         // 1. Encryption
         // 2. Decryption with key
