@@ -1,8 +1,9 @@
 public class Cipher {
 
-    // Alphabet
+    //
+    // Alphabet Array
+    //
     private static final char[] ALPHABET = buildAlphaber();
-
     private static char[] buildAlphaber() {
         StringBuilder alphabet = new StringBuilder();
 
@@ -14,17 +15,18 @@ public class Cipher {
         {
             alphabet.append(i);
         }
-
         alphabet.append(".,\"':-!? ");
 
         return alphabet.toString().toCharArray();
     }
 
-    // Methods for encryption, decryption, brute force, statistical analysis
 
-    public void encrypt(String inputFile, String outputFile, int key) {
-        // Implement encryption
-    }
+    //
+    // Methods for encryption, decryption, brute force, statistical analysis
+    //
+//    public String encrypt(String inputFile, String outputFile, int key) {
+//        for ()
+//    }
 
     public void decrypt(String inputFile, String outputFile, int key) {
         // Implement decryption
@@ -42,17 +44,5 @@ public class Cipher {
 
     // Helper methods: validateInput(), createAlphabet(), shiftCharacter(), readFile(), writeFile()
 
-    public static void main(String[] args) {
-        Cipher cipher = new Cipher();
-        // Menu logic
-        // 1. Encryption
-        // 2. Decryption with key
-        // 3. Brute force
-        // 4. Statistical analysis
-        // 0. Exit
-
-        // Example of calling the encryption method:
-        // cipher.encrypt("input.txt", "output.txt", 3);
-    }
 }
 
