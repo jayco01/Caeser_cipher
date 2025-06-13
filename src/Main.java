@@ -5,15 +5,15 @@ class Main {
         Scanner scanner = new Scanner(System.in);
 
 
-        String selected = "";
-        while(!selected.equals("0")) {
-            System.out.println("1. Encryption\n" +
-                    "2. Decryption with key\n" +
-                    "3. Brute force\n" +
-                    "4. Statistical analysis\n" +
-                    "0. Exit");
-            selected = scanner.nextLine();
-        }
+//        String selected = "";
+//        while(!selected.equals("0")) {
+//            System.out.println("1. Encryption\n" +
+//                    "2. Decryption with key\n" +
+//                    "3. Brute force\n" +
+//                    "4. Statistical analysis\n" +
+//                    "0. Exit");
+//            selected = scanner.nextLine();
+//        }
 
 
 
@@ -22,6 +22,8 @@ class Main {
 //        String ouputFilePath = scanner.nextLine().trim();
         String outputFilePath = "output.txt";
 //        int key = Integer.parseInt(scanner.nextLine());
+
+        Boolean isFileExist = Validator.isFileExists(inputFilePath);
 
         FileManager firstFile = new FileManager(inputFilePath, outputFilePath);
         String firstFileContent = firstFile.readFile();
