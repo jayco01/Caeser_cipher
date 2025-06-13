@@ -1,6 +1,12 @@
 public class Cipher {
 
     private String rawMessage;
+    private String encryptedMessage;
+    private String decryptedMessage;
+
+    public String getRawMessage() { return rawMessage;}
+    public String getEncryptedMessage() { return encryptedMessage;}
+    public String getDecryptedMessage() { return decryptedMessage;}
 
     public Cipher(String rawMessage){
         this.rawMessage = rawMessage;
@@ -30,7 +36,7 @@ public class Cipher {
     //
     // Methods for encryption, decryption, brute force, statistical analysis
     //
-    public String encrypt(int key) {
+    public void encrypt(int key) {
         StringBuilder encryptedMessage = new StringBuilder();
         for (char c : rawMessage.toCharArray()) {
             int position = findCharPosition(c);
@@ -42,9 +48,24 @@ public class Cipher {
             encryptedMessage.append(ALPHABET[newPosition]);
 
         }
-        return encryptedMessage.toString();
+        this.encryptedMessage = encryptedMessage.toString();
     }
 
+    public void decrypt(int key) {
+        StringBuilder decryptedMessage = new StringBuilder();
+        for (char c : encryptedMessage.toCharArray()) {
+            int position = findCharPosition(c);
+            if (position == -1) continue;
+            int newPosition = setNewPosition(position, key, false);
+            decryptedMessage.append(ALPHABET[newPosition]);
+        }
+        this.decryptedMessage = decryptedMessage.toString();
+    }
+
+
+    //
+    // Helper Methods
+    //
     private int findCharPosition(Character character) {
         for (int i = 0; i < ALPHABET.length; i++) {
             if(ALPHABET[i] == character) return i;
@@ -58,15 +79,11 @@ public class Cipher {
 
         //add position length if the current position with key is negative,
         //this wraps the position in reverse when "decrypting"
-        positionWithKey = (position > 0) ? position : position + ALPHABET.length;
+        positionWithKey = (positionWithKey >= 0) ? positionWithKey : positionWithKey + ALPHABET.length;
 
         int newPosition = (positionWithKey % ALPHABET.length <= 0) ? positionWithKey : positionWithKey % ALPHABET.length;
 
         return newPosition;
-    }
-
-    public void decrypt(String inputFile, String outputFile, int key) {
-        // Implement decryption
     }
 
     public void bruteForce(String inputFile, String outputFile, String optionalSampleFile) {

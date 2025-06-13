@@ -4,6 +4,19 @@ class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
 
+
+        String selected = "";
+        while(!selected.equals("0")) {
+            System.out.println("1. Encryption\n" +
+                    "2. Decryption with key\n" +
+                    "3. Brute force\n" +
+                    "4. Statistical analysis\n" +
+                    "0. Exit");
+            selected = scanner.nextLine();
+        }
+
+
+
 //        String inputFilePath = scanner.nextLine().trim();
         String inputFilePath = "input.txt";
 //        String ouputFilePath = scanner.nextLine().trim();
@@ -15,19 +28,20 @@ class Main {
 
 
         Cipher fistMessage = new Cipher(firstFileContent);
-        String encryptedFirstMessage = fistMessage.encrypt(6);
+        fistMessage.encrypt(6);
+        firstFile.writeFile(fistMessage.getEncryptedMessage());
+        System.out.println(fistMessage.getEncryptedMessage());
 
-        firstFile.writeFile(encryptedFirstMessage);
+        fistMessage.decrypt(6);
+        System.out.println(fistMessage.getDecryptedMessage());
+
+
 
 
 
 
         // Menu logic
-        // 1. Encryption
-        // 2. Decryption with key
-        // 3. Brute force
-        // 4. Statistical analysis
-        // 0. Exit
+
 
         // Example of calling the encryption method:
         // cipher.encrypt("input.txt", "output.txt", 3);
