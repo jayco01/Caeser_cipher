@@ -4,13 +4,22 @@ class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
 
-        Cipher cipher = new Cipher();
-
-        String inputFilePath = scanner.nextLine().trim();
+//        String inputFilePath = scanner.nextLine().trim();
+        String inputFilePath = "input.txt";
 //        String ouputFilePath = scanner.nextLine().trim();
+        String outputFilePath = "output.txt";
 //        int key = Integer.parseInt(scanner.nextLine());
 
-        String fileContent =  FileManager.readFile(inputFilePath);
+        FileManager firstFile = new FileManager(inputFilePath, outputFilePath);
+        String firstFileContent = firstFile.readFile();
+
+
+        Cipher fistMessage = new Cipher(firstFileContent);
+        String encryptedFirstMessage = fistMessage.encrypt(5);
+
+        firstFile.writeFile(encryptedFirstMessage);
+
+
 
 
         // Menu logic

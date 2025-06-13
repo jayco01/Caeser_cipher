@@ -1,22 +1,22 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class FileManager {
 
-    private String filePath = null;
+    private String inputFilePath = null;
+    private String outputFilePath = null;
 
-    public FileManager(String filepath){
-        this.filePath = filepath;
+    public FileManager(String inputFilepath, String outputFilePath){
+        this.inputFilePath = inputFilepath;
+        this.outputFilePath = outputFilePath;
     }
 
     public String readFile() throws IOException {
         StringBuilder fileContent = new StringBuilder();
         String currentLine;
 
-        try(BufferedReader br = new BufferedReader(new FileReader(this.filePath))) {
+        try(BufferedReader br = new BufferedReader(new FileReader(this.inputFilePath))) {
             while((currentLine = br.readLine()) != null) {
-                fileContent.append(br.readLine());
+                fileContent.append(currentLine);
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -24,7 +24,11 @@ public class FileManager {
         return fileContent.toString();
     }
 
-    public static void writeFile(String content, String filePath) {
-        // Logic for writing a file
+    public void writeFile(String content) throws IOException {
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(this.outputFilePath))) {
+            bw.write(content);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
