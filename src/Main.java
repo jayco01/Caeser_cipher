@@ -15,7 +15,7 @@ class Main {
 
 
         Cipher fistMessage = new Cipher(firstFileContent);
-        String encryptedFirstMessage = fistMessage.encrypt(5);
+        String encryptedFirstMessage = fistMessage.encrypt(6);
 
         firstFile.writeFile(encryptedFirstMessage);
 

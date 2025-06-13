@@ -56,6 +56,10 @@ public class Cipher {
     {
         int positionWithKey = (toEncrypt) ? position + key : position - key;
 
+        //add position length if the current position with key is negative,
+        //this wraps the position in reverse when "decrypting"
+        positionWithKey = (position > 0) ? position : position + ALPHABET.length;
+
         int newPosition = (positionWithKey % ALPHABET.length <= 0) ? positionWithKey : positionWithKey % ALPHABET.length;
 
         return newPosition;
