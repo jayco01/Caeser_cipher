@@ -70,7 +70,7 @@ class Main {
                     break;
 
                 case 2:
-                    System.out.println("Enter the file name of the message to be dencrypted('.txt' will be automatically added): ");
+                    System.out.println("Enter the file name of the message to be decrypted('.txt' will be automatically added): ");
                     String inputFileDe = scanner.nextLine().trim().toLowerCase() + ".txt";
                     boolean inputFileDeExist = Validator.isFileExists(inputFileDe);
                     if(!inputFileDeExist) {
@@ -97,23 +97,87 @@ class Main {
                     System.out.println("Enter a destination file name to send the encrypted message('.txt' will be automatically added): ");
                     String outputFileDe = scanner.nextLine().trim().toLowerCase() + ".txt";
 
+                    FileManager decryptedFile = new FileManager(inputFileDe, dencryptKey, outputFileDe);
 
-                    FileManager dencryptedFile = new FileManager(inputFileDe, dencryptKey, outputFileDe);
+                    Cipher decryptedMessage = new Cipher(decryptedFile.readFile());
 
-                    Cipher dencryptedMessage = new Cipher(dencryptedFile.readFile());
+                    decryptedMessage.encrypt(decryptedFile.getEncryptionKey());
 
-                    dencryptedMessage.encrypt(dencryptedFile.getEncryptionKey());
-
-                    System.out.println(dencryptedMessage.getDecryptedMessage());
+                    System.out.println(decryptedMessage.getDecryptedMessage());
                     break;
 
                 case 3:
-                    String bruteForceMessage = firstMessage.decryptByBruteForce(firstFile.getOutputFilePath());
-                    System.out.println(bruteForceMessage);
+                    System.out.println("Enter the file name of the message to be decrypted('.txt' will be automatically added): ");
+                    String inputFileBruteForce = scanner.nextLine().trim().toLowerCase() + ".txt";
+                    boolean inputFileBFExist = Validator.isFileExists(inputFileBruteForce);
+                    if(!inputFileBFExist) {
+                        System.out.println("File doesn't exist!");
+                        System.out.println();
+                        System.out.println("Would you like to create a new file and write an encrypted message? (Y/N)");
+                        String createChoice = scanner.nextLine().trim().toLowerCase();
+                        if(createChoice.equals("y")) {
+                            String messageDe = scanner.nextLine().trim();
+                            FileManager.writeFile(inputFileBruteForce, messageDe);
+                        } else { break; }
+                    }
+
+                    int dencryptKeyBF = 0;
+                    while (true) {
+                        System.out.println("Enter the encrypt Key: ");
+                        dencryptKeyBF = scanner.nextInt();
+                        boolean isValidEncryptKey = Validator.isValidKey(dencryptKeyBF);
+                        if(!isValidEncryptKey) {
+                            System.out.println("Encrypt Key is NOT valid. Please enter a number between 1 and 61.");
+                        } else {break;}
+                    }
+
+                    System.out.println("Enter a destination file name to send the encrypted message('.txt' will be automatically added): ");
+                    String outputFileBruteForce = scanner.nextLine().trim().toLowerCase() + ".txt";
+
+                    FileManager decryptedFileBruteForce = new FileManager(inputFileBruteForce, dencryptKeyBF, outputFileBruteForce);
+
+                    Cipher decryptedMessageBF = new Cipher(decryptedFileBruteForce.readFile());
+
+                    decryptedMessageBF.encrypt(decryptedFileBruteForce.getEncryptionKey());
+
+                    System.out.println(decryptedMessageBF.getDecryptedMessage());
                     break;
 
                 case 4:
-                    firstMessage.statisticalAnalysis(firstMessage.getEncryptedMessage());
+                    System.out.println("Enter the file name of the message to be decrypted('.txt' will be automatically added): ");
+                    String inputFileBruteForce = scanner.nextLine().trim().toLowerCase() + ".txt";
+                    boolean inputFileBFExist = Validator.isFileExists(inputFileBruteForce);
+                    if(!inputFileBFExist) {
+                        System.out.println("File doesn't exist!");
+                        System.out.println();
+                        System.out.println("Would you like to create a new file and write an encrypted message? (Y/N)");
+                        String createChoice = scanner.nextLine().trim().toLowerCase();
+                        if(createChoice.equals("y")) {
+                            String messageDe = scanner.nextLine().trim();
+                            FileManager.writeFile(inputFileBruteForce, messageDe);
+                        } else { break; }
+                    }
+
+                    int dencryptKeyBF = 0;
+                    while (true) {
+                        System.out.println("Enter the encrypt Key: ");
+                        dencryptKeyBF = scanner.nextInt();
+                        boolean isValidEncryptKey = Validator.isValidKey(dencryptKeyBF);
+                        if(!isValidEncryptKey) {
+                            System.out.println("Encrypt Key is NOT valid. Please enter a number between 1 and 61.");
+                        } else {break;}
+                    }
+
+                    System.out.println("Enter a destination file name to send the encrypted message('.txt' will be automatically added): ");
+                    String outputFileBruteForce = scanner.nextLine().trim().toLowerCase() + ".txt";
+
+                    FileManager decryptedFileBruteForce = new FileManager(inputFileBruteForce, dencryptKeyBF, outputFileBruteForce);
+
+                    Cipher decryptedMessageBF = new Cipher(decryptedFileBruteForce.readFile());
+
+                    decryptedMessageBF.encrypt(decryptedFileBruteForce.getEncryptionKey());
+
+                    System.out.println(decryptedMessageBF.getDecryptedMessage());
                     break;
 
             }
