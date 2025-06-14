@@ -145,41 +145,40 @@ class Main {
 
                 case 4:
                     System.out.println("Enter the file name of the message to be decrypted('.txt' will be automatically added): ");
-                    String inputFileBruteForce = scanner.nextLine().trim().toLowerCase() + ".txt";
-                    boolean inputFileBFExist = Validator.isFileExists(inputFileBruteForce);
-                    if(!inputFileBFExist) {
+                    String inputFileSA = scanner.nextLine().trim().toLowerCase() + ".txt";
+                    boolean inputFileExistSA = Validator.isFileExists(inputFileSA);
+                    if(!inputFileExistSA) {
                         System.out.println("File doesn't exist!");
                         System.out.println();
                         System.out.println("Would you like to create a new file and write an encrypted message? (Y/N)");
                         String createChoice = scanner.nextLine().trim().toLowerCase();
                         if(createChoice.equals("y")) {
                             String messageDe = scanner.nextLine().trim();
-                            FileManager.writeFile(inputFileBruteForce, messageDe);
+                            FileManager.writeFile(inputFileSA, messageDe);
                         } else { break; }
                     }
 
-                    int dencryptKeyBF = 0;
+                    int dencryptKeySA = 0;
                     while (true) {
                         System.out.println("Enter the encrypt Key: ");
-                        dencryptKeyBF = scanner.nextInt();
-                        boolean isValidEncryptKey = Validator.isValidKey(dencryptKeyBF);
+                        dencryptKeySA = scanner.nextInt();
+                        boolean isValidEncryptKey = Validator.isValidKey(dencryptKeySA);
                         if(!isValidEncryptKey) {
                             System.out.println("Encrypt Key is NOT valid. Please enter a number between 1 and 61.");
                         } else {break;}
                     }
 
                     System.out.println("Enter a destination file name to send the encrypted message('.txt' will be automatically added): ");
-                    String outputFileBruteForce = scanner.nextLine().trim().toLowerCase() + ".txt";
+                    String outputFileSA = scanner.nextLine().trim().toLowerCase() + ".txt";
 
-                    FileManager decryptedFileBruteForce = new FileManager(inputFileBruteForce, dencryptKeyBF, outputFileBruteForce);
+                    FileManager decryptedFileSA = new FileManager(inputFileSA, dencryptKeySA, outputFileSA);
 
-                    Cipher decryptedMessageBF = new Cipher(decryptedFileBruteForce.readFile());
+                    Cipher decryptedMessageSA = new Cipher(decryptedFileSA.readFile());
 
-                    decryptedMessageBF.encrypt(decryptedFileBruteForce.getEncryptionKey());
+                    decryptedMessageSA.encrypt(decryptedFileSA.getEncryptionKey());
 
-                    System.out.println(decryptedMessageBF.getDecryptedMessage());
+                    System.out.println(decryptedMessageSA.getDecryptedMessage());
                     break;
-
             }
         }
     }
