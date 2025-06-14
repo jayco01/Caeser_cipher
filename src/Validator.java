@@ -27,13 +27,12 @@ public class Validator {
             int selected = Integer.parseInt(selectedStr);
             if(selected < 0 || selected > 4)
             {
-                System.out.println("Condition 1: Please select a valid Menu option");
+
                 return false;
             }
-            System.out.println("Condition 2: Input is a valid Menu option");
             return true;
         } catch (NumberFormatException e) {
-            System.out.println("Invalid menu option. Enter a number from 0 to 4");
+
             return false;
         }
     }

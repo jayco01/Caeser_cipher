@@ -11,8 +11,7 @@ public class Cipher {
     public String getEncryptedMessage() { return encryptedMessage;}
     public String getDecryptedMessage() { return decryptedMessage;}
 
-
-    public static final HashSet<String> ENGLISH_WORDS = new HashSet<>(Arrays.asList(
+    private final HashSet<String> ENGLISH_WORDS = new HashSet<>(Arrays.asList(
             "the", "be", "to", "of", "and", "a", "in", "that", "have", "i", "it", "for", "not",
             "on", "with", "he", "as", "you", "do", "at", "this", "but", "his", "by", "from",
             "they", "we", "say", "her", "she", "or", "an", "will", "my", "one", "all", "would",
@@ -23,6 +22,8 @@ public class Cipher {
             "after", "use", "two", "how", "our", "work", "first", "well", "way", "even",
             "new", "want", "because", "any", "these", "give", "day", "most", "us"
     ));
+
+    private final char[] COMMON_ENGLISH_LETTERS = {'e', 't', 'a', 'o', 'i', 'n', 's', 'h', 'r'};
 
     public Cipher(String rawMessage){
         this.rawMessage = rawMessage;
@@ -81,7 +82,6 @@ public class Cipher {
 
 
     public String decryptByBruteForce(String encryptedText) {
-        // Brute force logic
         int englighWordsCount = Integer.MIN_VALUE;
         String decryptedMessage = "";
         for (int i = 0; i < ALPHABET.length; i++) {
@@ -96,14 +96,25 @@ public class Cipher {
         return decryptedMessage;
     }
 
-    private int countEnglishWords(String message) {
-        String[] messageList = message.split(" ");
-        int count = 0;
-        for (String str: messageList) {
-            String strWithoutSymbols = str.replaceAll("[-.,\"':!?\\s]", "");
-            if (ENGLISH_WORDS.contains(strWithoutSymbols.toLowerCase())) count++;
+    public String statisticalAnalysis(String encryptedText) {
+        char[] encryptedMessageChars = encryptedText.toCharArray();
+
+        Integer[] charFrequencyArray = new Integer[ALPHABET.length];
+        Arrays.fill(charFrequencyArray, 0);
+
+        for(char letter : encryptedMessageChars) {
+            int position = findCharPosition(letter);
+            charFrequencyArray[position]++;
         }
-        return count;
+
+        int postionOfHighestFrequency = getPostionOfHighestFrequency(charFrequencyArray);
+
+        int[] possibleKeys = getPossibleKeys(postionOfHighestFrequency);
+
+        for(int number : possibleKeys) {
+            System.out.println(decrypt(number));
+        }
+        return decrypt(possibleKeys[0]);
     }
 
 
@@ -119,28 +130,56 @@ public class Cipher {
         return -1;
     }
 
-    private int setNewPosition(int position, int key, boolean toEncrypt)
-    {
-        int positionWithKey = (toEncrypt) ? position + key : position - key;
-
+    private int setNewPosition(int position, int key, boolean toEncrypt) {
         //add position length if the current position with key is negative,
         //this wraps the position in reverse when "decrypting"
-        positionWithKey = (positionWithKey >= 0) ? positionWithKey : positionWithKey + ALPHABET.length;
+        int positionWithKey = (toEncrypt) ? position + key : position - key + ALPHABET.length;
 
-        int newPosition = (positionWithKey % ALPHABET.length <= 0) ? positionWithKey : positionWithKey % ALPHABET.length;
+        return (positionWithKey % ALPHABET.length);
+    }
 
-        return newPosition;
+    private int countEnglishWords(String message) {
+        String[] messageList = message.split(" ");
+        int count = 0;
+        for (String str: messageList) {
+            String strWithoutSymbols = str.replaceAll("[-.,\"':!?\\s]", "");
+            if (ENGLISH_WORDS.contains(strWithoutSymbols.toLowerCase())) count++;
+        }
+        return count;
+    }
+
+    private static int getPostionOfHighestFrequency(Integer[] charFrequencyArray) {
+        //find the letter that has the highest occurrence in the encrypted message
+        int highestFrequency = 0;
+        int postionOfHighestFrequency = 0;
+        for (int i = 0; i < charFrequencyArray.length; i++) {
+            if (charFrequencyArray[i] > highestFrequency) {
+                highestFrequency = charFrequencyArray[i];
+                postionOfHighestFrequency = i;
+            }
+        }
+        System.out.println("Highest frequency Number: " + highestFrequency
+                + "\nPostion of highest frequency: " + postionOfHighestFrequency
+                + "\nLetter in highest frequency: " + ALPHABET[postionOfHighestFrequency]);
+        return postionOfHighestFrequency;
+    }
+
+    private int[] getPossibleKeys(int postionOfHighestFrequency) {
+        //Find the possible positions by subtracting the postionOfHighestFrequency to the most commonly used english letters
+        int numberOfPossibleKeys = 3;//Change this to the number of possible keys you want to output
+        int[] possibleKeys = new int[numberOfPossibleKeys];
+        for (int i = 0; i < numberOfPossibleKeys; i++) {
+            char commonLetter = COMMON_ENGLISH_LETTERS[i];
+            int commonPosition = findCharPosition(commonLetter);
+            possibleKeys[i] = postionOfHighestFrequency - commonPosition;
+
+        }
+        return possibleKeys;
     }
 
 
 
 
-
-
-
-    public void statisticalAnalysis(String inputFile, String outputFile, String optionalSampleFile) {
-        // Implement statistical analysis
-    }
 
     // Helper methods: validateInput(), shiftCharacter()
 

@@ -18,36 +18,42 @@ class Main {
         String selected = "";
         boolean selectedIsValid = false;
 
-        while(true) {
-            MenuHelper.printMenu();
-
-            selected = scanner.nextLine().trim();
-            selectedIsValid = Validator.isValidMenuOption(selected);
-
-            int selectedInt = Integer.parseInt(selected);
-            if(!selectedIsValid || selectedInt == 0) break;
+//        while(true) {
+//            MenuHelper.printMenu();
+//
+//            selected = scanner.nextLine().trim();
+//            selectedIsValid = Validator.isValidMenuOption(selected);
+//
+//            int selectedInt = Integer.parseInt(selected);
+//            if(!selectedIsValid || selectedInt == 0) break;
 
             firstMessage.encrypt(6);
             firstFile.writeFile(firstMessage.getEncryptedMessage());
 
             String deryptedMessage = firstMessage.decrypt(6);
 
-            switch(selectedInt) {
-                case 1:
+            firstMessage.statisticalAnalysis(firstMessage.getEncryptedMessage());
 
-                    System.out.println(firstMessage.getEncryptedMessage());
-                    break;
-
-                case 2:
-
-                    System.out.println(deryptedMessage);
-                    break;
-
-                case 3:
-                    String bruteForceMessage = firstMessage.decryptByBruteForce(firstFile.getOutputFilePath());
-                    System.out.println(bruteForceMessage);
-
-            }
-        }
+//            switch(selectedInt) {
+//                case 1:
+//
+//                    System.out.println(firstMessage.getEncryptedMessage());
+//                    break;
+//
+//                case 2:
+//
+//                    System.out.println(deryptedMessage);
+//                    break;
+//
+//                case 3:
+//                    String bruteForceMessage = firstMessage.decryptByBruteForce(firstFile.getOutputFilePath());
+//                    System.out.println(bruteForceMessage);
+//                    break;
+//
+//                case 4:
+//                    firstMessage.statisticalAnalysis(firstMessage.getEncryptedMessage());
+//
+//            }
+//        }
     }
 }
