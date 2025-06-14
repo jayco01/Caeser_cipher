@@ -16,9 +16,24 @@ public class Validator {
         if (filePath == null || filePath.isEmpty()) {
             return false;
         } else if (Files.exists(Path.of(filePath))) {
-            System.out.println("File exists");
             return true;
         } else {
+            return false;
+        }
+    }
+
+    public static boolean isValidMenuOption(String selectedStr) {
+        try {
+            int selected = Integer.parseInt(selectedStr);
+            if(selected < 0 || selected > 4)
+            {
+                System.out.println("Condition 1: Please select a valid Menu option");
+                return false;
+            }
+            System.out.println("Condition 2: Input is a valid Menu option");
+            return true;
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid menu option. Enter a number from 0 to 4");
             return false;
         }
     }
