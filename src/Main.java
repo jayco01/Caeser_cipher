@@ -38,10 +38,11 @@ class Main {
                     if(!inputFileExist) {
                         System.out.println("File doesn't exist!");
                         System.out.println();
-                        System.out.println("Would you like to create a new file? (Y/N)");
+                        System.out.println("Would you like to create a new file and write a message? (Y/N)");
                         String createChoice = scanner.nextLine().trim().toLowerCase();
                         if(createChoice.equals("y")) {
-                            FileManager.createFile(inputFileEn);
+                            String messageEn = scanner.nextLine().trim();
+                            FileManager.writeFile(inputFileEn, messageEn);
                         } else { break; }
                     }
 
@@ -69,8 +70,41 @@ class Main {
                     break;
 
                 case 2:
+                    System.out.println("Enter the file name of the message to be dencrypted('.txt' will be automatically added): ");
+                    String inputFileDe = scanner.nextLine().trim().toLowerCase() + ".txt";
+                    boolean inputFileDeExist = Validator.isFileExists(inputFileDe);
+                    if(!inputFileDeExist) {
+                        System.out.println("File doesn't exist!");
+                        System.out.println();
+                        System.out.println("Would you like to create a new file and write an encrypted message? (Y/N)");
+                        String createChoice = scanner.nextLine().trim().toLowerCase();
+                        if(createChoice.equals("y")) {
+                            String messageDe = scanner.nextLine().trim();
+                            FileManager.writeFile(inputFileDe, messageDe);
+                        } else { break; }
+                    }
 
-                    System.out.println(deryptedMessage);
+                    int dencryptKey = 0;
+                    while (true) {
+                        System.out.println("Enter the encrypt Key: ");
+                        dencryptKey = scanner.nextInt();
+                        boolean isValidEncryptKey = Validator.isValidKey(dencryptKey);
+                        if(!isValidEncryptKey) {
+                            System.out.println("Encrypt Key is NOT valid. Please enter a number between 1 and 61.");
+                        } else {break;}
+                    }
+
+                    System.out.println("Enter a destination file name to send the encrypted message('.txt' will be automatically added): ");
+                    String outputFileDe = scanner.nextLine().trim().toLowerCase() + ".txt";
+
+
+                    FileManager dencryptedFile = new FileManager(inputFileDe, dencryptKey, outputFileDe);
+
+                    Cipher dencryptedMessage = new Cipher(dencryptedFile.readFile());
+
+                    dencryptedMessage.encrypt(dencryptedFile.getEncryptionKey());
+
+                    System.out.println(dencryptedMessage.getDecryptedMessage());
                     break;
 
                 case 3:

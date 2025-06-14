@@ -29,11 +29,11 @@ public class FileManager {
         return fileContent.toString();
     }
 
-    public void writeFile(String content) throws IOException {
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(this.outputFilePath))) {
+    public static void writeFile(String content, String fileName) throws IOException {
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
             bw.write(content);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Unable to write the file. Error: " + e.getMessage());
         }
     }
 
