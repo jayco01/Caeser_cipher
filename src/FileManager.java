@@ -4,11 +4,14 @@ public class FileManager {
 
     private String inputFilePath = null;
     private String outputFilePath = null;
+    private int encryptionKey = 0;
     public String getInputFilePath() {return inputFilePath;}
     public String getOutputFilePath() {return outputFilePath;}
+    public int getEncryptionKey() {return encryptionKey;}
 
-    public FileManager(String inputFilepath, String outputFilePath){
+    public FileManager(String inputFilepath, int encryptionKey ,String outputFilePath){
         this.inputFilePath = inputFilepath;
+        this.encryptionKey = encryptionKey;
         this.outputFilePath = outputFilePath;
     }
 
@@ -31,6 +34,15 @@ public class FileManager {
             bw.write(content);
         } catch (IOException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public static void createFile(String fileName) throws IOException {
+        File file = new File(fileName);
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to create the file. Error: " + e.getMessage());
         }
     }
 }

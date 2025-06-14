@@ -4,8 +4,8 @@ import java.nio.file.Path;
 public class Validator {
     private Validator() {}
 
-    public static boolean isValidKey(int key, char[] alphabet) {
-        if (key > 0 && key <= alphabet.length) {
+    public static boolean isValidKey(int key) {
+        if (key > 0 && key <= Cipher.ALPHABET.length) {
             return true;
         } else {
             return false;
