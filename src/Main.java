@@ -13,9 +13,9 @@ class Main {
         FileManager firstFile = new FileManager(inputFilePath, outputFilePath);
         String firstFileContent = firstFile.readFile();
 
-        Cipher fistMessage = new Cipher(firstFileContent);
+        Cipher firstMessage = new Cipher(firstFileContent);
 
-        String selected = null;
+        String selected = "";
         boolean selectedIsValid = false;
 
         while(true) {
@@ -27,44 +27,27 @@ class Main {
             int selectedInt = Integer.parseInt(selected);
             if(!selectedIsValid || selectedInt == 0) break;
 
+            firstMessage.encrypt(6);
+            firstFile.writeFile(firstMessage.getEncryptedMessage());
+
+            String deryptedMessage = firstMessage.decrypt(6);
+
             switch(selectedInt) {
                 case 1:
-                    fistMessage.encrypt(6);
-                    firstFile.writeFile(fistMessage.getEncryptedMessage());
-                    System.out.println(fistMessage.getEncryptedMessage());
+
+                    System.out.println(firstMessage.getEncryptedMessage());
                     break;
 
                 case 2:
-                    fistMessage.decrypt(6);
-                    System.out.println(fistMessage.getDecryptedMessage());
+
+                    System.out.println(deryptedMessage);
+                    break;
+
+                case 3:
+                    String bruteForceMessage = firstMessage.decryptByBruteForce(firstFile.getOutputFilePath());
+                    System.out.println(bruteForceMessage);
 
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // Menu logic
-
-
-        // Example of calling the encryption method:
-        // cipher.encrypt("input.txt", "output.txt", 3);
     }
 }

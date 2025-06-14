@@ -4,6 +4,8 @@ public class FileManager {
 
     private String inputFilePath = null;
     private String outputFilePath = null;
+    public String getInputFilePath() {return inputFilePath;}
+    public String getOutputFilePath() {return outputFilePath;}
 
     public FileManager(String inputFilepath, String outputFilePath){
         this.inputFilePath = inputFilepath;

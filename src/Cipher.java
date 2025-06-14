@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.HashSet;
+
 public class Cipher {
 
     private String rawMessage;
@@ -8,6 +11,19 @@ public class Cipher {
     public String getEncryptedMessage() { return encryptedMessage;}
     public String getDecryptedMessage() { return decryptedMessage;}
 
+
+    public static final HashSet<String> ENGLISH_WORDS = new HashSet<>(Arrays.asList(
+            "the", "be", "to", "of", "and", "a", "in", "that", "have", "i", "it", "for", "not",
+            "on", "with", "he", "as", "you", "do", "at", "this", "but", "his", "by", "from",
+            "they", "we", "say", "her", "she", "or", "an", "will", "my", "one", "all", "would",
+            "there", "their", "what", "so", "up", "out", "if", "about", "who", "get", "which",
+            "go", "me", "when", "make", "can", "like", "time", "no", "just", "him", "know", "take",
+            "people", "into", "year", "your", "good", "some", "could", "them", "see", "other",
+            "than", "then", "now", "look", "only", "come", "its", "over", "think", "also", "back",
+            "after", "use", "two", "how", "our", "work", "first", "well", "way", "even",
+            "new", "want", "because", "any", "these", "give", "day", "most", "us"
+    ));
+
     public Cipher(String rawMessage){
         this.rawMessage = rawMessage;
     };
@@ -15,7 +31,7 @@ public class Cipher {
     //
     // Alphabet Array
     //
-    private static final char[] ALPHABET = buildAlphabet();
+    public static final char[] ALPHABET = buildAlphabet();
     private static char[] buildAlphabet() {
         StringBuilder alphabet = new StringBuilder();
 
@@ -51,7 +67,7 @@ public class Cipher {
         this.encryptedMessage = encryptedMessage.toString();
     }
 
-    public void decrypt(int key) {
+    public String decrypt(int key) {
         StringBuilder decryptedMessage = new StringBuilder();
         for (char c : encryptedMessage.toCharArray()) {
             int position = findCharPosition(c);
@@ -60,7 +76,37 @@ public class Cipher {
             decryptedMessage.append(ALPHABET[newPosition]);
         }
         this.decryptedMessage = decryptedMessage.toString();
+        return this.decryptedMessage;
     }
+
+
+    public String decryptByBruteForce(String encryptedText) {
+        // Brute force logic
+        int englighWordsCount = Integer.MIN_VALUE;
+        String decryptedMessage = "";
+        for (int i = 0; i < ALPHABET.length; i++) {
+            String message = decrypt(i);
+            int tempEnglighWordsCount = countEnglishWords(message);
+            if (tempEnglighWordsCount > englighWordsCount)
+            {
+                decryptedMessage = message;
+                englighWordsCount = tempEnglighWordsCount;
+            }
+        }
+        return decryptedMessage;
+    }
+
+    private int countEnglishWords(String message) {
+        String[] messageList = message.split(" ");
+        int count = 0;
+        for (String str: messageList) {
+            String strWithoutSymbols = str.replaceAll("[-.,\"':!?\\s]", "");
+            if (ENGLISH_WORDS.contains(strWithoutSymbols.toLowerCase())) count++;
+        }
+        return count;
+    }
+
+
 
 
     //
@@ -86,9 +132,11 @@ public class Cipher {
         return newPosition;
     }
 
-    public void bruteForce(String inputFile, String outputFile, String optionalSampleFile) {
-        // Implementation of brute force
-    }
+
+
+
+
+
 
     public void statisticalAnalysis(String inputFile, String outputFile, String optionalSampleFile) {
         // Implement statistical analysis
