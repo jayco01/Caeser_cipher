@@ -4,13 +4,6 @@ class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
 
-        String inputFilePath = "input.txt";
-        String outputFilePath = "output.txt";
-
-        Boolean isFileExist = Validator.isFileExists(inputFilePath);
-
-
-
         String selected = "";
         boolean selectedIsValid = false;
 
@@ -23,12 +16,6 @@ class Main {
 
             int selectedInt = Integer.parseInt(selected);
             if(!selectedIsValid || selectedInt == 0) break;
-
-            firstMessage.encrypt(6);
-            firstFile.writeFile(firstMessage.getEncryptedMessage());
-
-            String deryptedMessage = firstMessage.decrypt(6);
-
 
             switch(selectedInt) {
                 case 1:

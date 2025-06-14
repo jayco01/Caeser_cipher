@@ -112,7 +112,6 @@ public class Cipher {
     }
 
 
-
     //
     // Helper Methods
     //
