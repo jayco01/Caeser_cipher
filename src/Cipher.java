@@ -99,15 +99,9 @@ public class Cipher {
     public String statisticalAnalysis(String encryptedText) {
         char[] encryptedMessageChars = encryptedText.toCharArray();
 
-        Integer[] charFrequencyArray = new Integer[ALPHABET.length];
-        Arrays.fill(charFrequencyArray, 0);
+        int[] charFrequencyArray = getCharFrequencyArray(encryptedMessageChars);
 
-        for(char letter : encryptedMessageChars) {
-            int position = findCharPosition(letter);
-            charFrequencyArray[position]++;
-        }
-
-        int postionOfHighestFrequency = getPostionOfHighestFrequency(charFrequencyArray);
+        int postionOfHighestFrequency = getPositionOfHighestFrequency(charFrequencyArray);
 
         int[] possibleKeys = getPossibleKeys(postionOfHighestFrequency);
 
@@ -119,10 +113,10 @@ public class Cipher {
 
 
 
-
     //
     // Helper Methods
     //
+
     private int findCharPosition(Character character) {
         for (int i = 0; i < ALPHABET.length; i++) {
             if(ALPHABET[i] == character) return i;
@@ -130,14 +124,15 @@ public class Cipher {
         return -1;
     }
 
+    //add position length if the current position with key is negative,
+    //this wraps the position in reverse when "decrypting"
     private int setNewPosition(int position, int key, boolean toEncrypt) {
-        //add position length if the current position with key is negative,
-        //this wraps the position in reverse when "decrypting"
         int positionWithKey = (toEncrypt) ? position + key : position - key + ALPHABET.length;
 
         return (positionWithKey % ALPHABET.length);
     }
 
+    //count how many english words are in text
     private int countEnglishWords(String message) {
         String[] messageList = message.split(" ");
         int count = 0;
@@ -148,8 +143,20 @@ public class Cipher {
         return count;
     }
 
-    private static int getPostionOfHighestFrequency(Integer[] charFrequencyArray) {
-        //find the letter that has the highest occurrence in the encrypted message
+    //create an array that counts the number of times an alphabet was used in the encrypted message
+    private int[] getCharFrequencyArray(char[] encryptedMessageChars) {
+        int[] charFrequencyArray = new int[ALPHABET.length];
+        Arrays.fill(charFrequencyArray, 0);
+
+        for(char letter : encryptedMessageChars) {
+            int position = findCharPosition(letter);
+            charFrequencyArray[position]++;
+        }
+        return charFrequencyArray;
+    }
+
+    //find the letter that has the highest occurrence in the encrypted message
+    private static int getPositionOfHighestFrequency(int[] charFrequencyArray) {
         int highestFrequency = 0;
         int postionOfHighestFrequency = 0;
         for (int i = 0; i < charFrequencyArray.length; i++) {
@@ -164,8 +171,8 @@ public class Cipher {
         return postionOfHighestFrequency;
     }
 
+    //Find the possible positions by subtracting the postionOfHighestFrequency to the most commonly used english letters
     private int[] getPossibleKeys(int postionOfHighestFrequency) {
-        //Find the possible positions by subtracting the postionOfHighestFrequency to the most commonly used english letters
         int numberOfPossibleKeys = 3;//Change this to the number of possible keys you want to output
         int[] possibleKeys = new int[numberOfPossibleKeys];
         for (int i = 0; i < numberOfPossibleKeys; i++) {
@@ -176,12 +183,6 @@ public class Cipher {
         }
         return possibleKeys;
     }
-
-
-
-
-
-    // Helper methods: validateInput(), shiftCharacter()
 
 }
 
