@@ -14,8 +14,13 @@ class Main {
             selected = scanner.nextLine().trim();
             selectedIsValid = Validator.isValidMenuOption(selected);
 
-            int selectedInt = Integer.parseInt(selected);
-            if(!selectedIsValid || selectedInt == 0) break;
+            int selectedInt = (selectedIsValid) ? Integer.parseInt(selected): -1;
+            if(selectedInt == 0)
+            {
+                break;
+            } else if (selectedInt == -1) {
+                continue;
+            }
 
             switch(selectedInt) {
                 case 1:
@@ -28,30 +33,32 @@ class Main {
                         System.out.println("Would you like to create a new file and write a message? (Y/N)");
                         String createChoice = scanner.nextLine().trim().toLowerCase();
                         if(createChoice.equals("y")) {
+                            System.out.println("Enter the message to be encrypted: ");
                             String messageEn = scanner.nextLine().trim();
-                            FileManager.writeFile(inputFileEn, messageEn);
+                            FileManager.writeFile(messageEn, inputFileEn);
                         } else { break; }
                     }
 
-                    int encryptKey = 0;
+                    String encryptKey = null;
+                    int encryptKeyInt = 0;
                     while (true) {
                         System.out.println("Enter the encrypt Key: ");
-                        encryptKey = scanner.nextInt();
+                        encryptKey = scanner.nextLine();
                         boolean isValidEncryptKey = Validator.isValidKey(encryptKey);
-                        if(!isValidEncryptKey) {
-                            System.out.println("Encrypt Key is NOT valid. Please enter a number between 1 and 61.");
-                        } else {break;}
+                        encryptKeyInt = (isValidEncryptKey) ? Integer.parseInt(encryptKey) : -1;
+                        if(isValidEncryptKey) break;
                     }
 
                     System.out.println("Enter a destination file name to send the encrypted message('.txt' will be automatically added): ");
                     String outputFileEn = scanner.nextLine().trim().toLowerCase() + ".txt";
 
-
-                    FileManager encryptedFile = new FileManager(inputFileEn, encryptKey, outputFileEn);
+                    FileManager encryptedFile = new FileManager(inputFileEn, encryptKeyInt, outputFileEn);
 
                     Cipher encryptedMessage = new Cipher(encryptedFile.readFile());
 
                     encryptedMessage.encrypt(encryptedFile.getEncryptionKey());
+
+                    FileManager.writeFile(encryptedMessage.getEncryptedMessage(), outputFileEn);
 
                     System.out.println(encryptedMessage.getEncryptedMessage());
                     break;
@@ -66,29 +73,30 @@ class Main {
                         System.out.println("Would you like to create a new file and write an encrypted message? (Y/N)");
                         String createChoice = scanner.nextLine().trim().toLowerCase();
                         if(createChoice.equals("y")) {
+                            System.out.println("Enter the message to be decrypted: ");
                             String messageDe = scanner.nextLine().trim();
-                            FileManager.writeFile(inputFileDe, messageDe);
+                            FileManager.writeFile(messageDe, inputFileDe);
                         } else { break; }
                     }
 
-                    int dencryptKey = 0;
+                    String decryptKey = null;
+                    int decryptKeyInt = 0;
                     while (true) {
                         System.out.println("Enter the encrypt Key: ");
-                        dencryptKey = scanner.nextInt();
-                        boolean isValidEncryptKey = Validator.isValidKey(dencryptKey);
-                        if(!isValidEncryptKey) {
-                            System.out.println("Encrypt Key is NOT valid. Please enter a number between 1 and 61.");
-                        } else {break;}
+                        decryptKey = scanner.nextLine();
+                        boolean isValidEncryptKey = Validator.isValidKey(decryptKey);
+                        decryptKeyInt = (isValidEncryptKey) ? Integer.parseInt(decryptKey) : -1;
+                        if(isValidEncryptKey) break;
                     }
 
                     System.out.println("Enter a destination file name to send the encrypted message('.txt' will be automatically added): ");
                     String outputFileDe = scanner.nextLine().trim().toLowerCase() + ".txt";
 
-                    FileManager decryptedFile = new FileManager(inputFileDe, dencryptKey, outputFileDe);
+                    FileManager decryptedFile = new FileManager(inputFileDe, decryptKeyInt, outputFileDe);
 
                     Cipher decryptedMessage = new Cipher(decryptedFile.readFile());
 
-                    decryptedMessage.encrypt(decryptedFile.getEncryptionKey());
+                    FileManager.writeFile(decryptedMessage.getDecryptedMessage(), outputFileDe);
 
                     System.out.println(decryptedMessage.getDecryptedMessage());
                     break;
@@ -103,29 +111,32 @@ class Main {
                         System.out.println("Would you like to create a new file and write an encrypted message? (Y/N)");
                         String createChoice = scanner.nextLine().trim().toLowerCase();
                         if(createChoice.equals("y")) {
-                            String messageDe = scanner.nextLine().trim();
-                            FileManager.writeFile(inputFileBruteForce, messageDe);
+                            System.out.println("Enter the message to be decrypted: ");
+                            String messageBF = scanner.nextLine().trim();
+                            FileManager.writeFile(messageBF, inputFileBruteForce);
                         } else { break; }
                     }
 
-                    int dencryptKeyBF = 0;
+                    String decryptKeyBF = null;
+                    int decryptKeyIntBF = 0;
                     while (true) {
                         System.out.println("Enter the encrypt Key: ");
-                        dencryptKeyBF = scanner.nextInt();
-                        boolean isValidEncryptKey = Validator.isValidKey(dencryptKeyBF);
-                        if(!isValidEncryptKey) {
-                            System.out.println("Encrypt Key is NOT valid. Please enter a number between 1 and 61.");
-                        } else {break;}
+                        decryptKeyBF = scanner.nextLine();
+                        boolean isValidEncryptKey = Validator.isValidKey(decryptKeyBF);
+                        decryptKeyIntBF = (isValidEncryptKey) ? Integer.parseInt(decryptKeyBF) : -1;
+                        if(isValidEncryptKey) break;
                     }
 
                     System.out.println("Enter a destination file name to send the encrypted message('.txt' will be automatically added): ");
                     String outputFileBruteForce = scanner.nextLine().trim().toLowerCase() + ".txt";
 
-                    FileManager decryptedFileBruteForce = new FileManager(inputFileBruteForce, dencryptKeyBF, outputFileBruteForce);
+                    FileManager decryptedFileBruteForce = new FileManager(inputFileBruteForce, decryptKeyIntBF, outputFileBruteForce);
 
                     Cipher decryptedMessageBF = new Cipher(decryptedFileBruteForce.readFile());
 
-                    decryptedMessageBF.encrypt(decryptedFileBruteForce.getEncryptionKey());
+                    decryptedMessageBF.decrypt(decryptedFileBruteForce.getEncryptionKey());
+
+                    FileManager.writeFile(decryptedMessageBF.getDecryptedMessage(), outputFileBruteForce);
 
                     System.out.println(decryptedMessageBF.getDecryptedMessage());
                     break;
@@ -140,32 +151,37 @@ class Main {
                         System.out.println("Would you like to create a new file and write an encrypted message? (Y/N)");
                         String createChoice = scanner.nextLine().trim().toLowerCase();
                         if(createChoice.equals("y")) {
-                            String messageDe = scanner.nextLine().trim();
-                            FileManager.writeFile(inputFileSA, messageDe);
+                            System.out.println("Enter the message to be decrypted: ");
+                            String messageSA = scanner.nextLine().trim();
+                            FileManager.writeFile(messageSA, inputFileSA);
                         } else { break; }
                     }
 
-                    int dencryptKeySA = 0;
+                    String decryptKeySA = null;
+                    int decryptKeyIntSA = 0;
                     while (true) {
                         System.out.println("Enter the encrypt Key: ");
-                        dencryptKeySA = scanner.nextInt();
-                        boolean isValidEncryptKey = Validator.isValidKey(dencryptKeySA);
-                        if(!isValidEncryptKey) {
-                            System.out.println("Encrypt Key is NOT valid. Please enter a number between 1 and 61.");
-                        } else {break;}
+                        decryptKeySA = scanner.nextLine();
+                        boolean isValidEncryptKey = Validator.isValidKey(decryptKeySA);
+                        decryptKeyIntSA = (isValidEncryptKey) ? Integer.parseInt(decryptKeySA) : -1;
+                        if(isValidEncryptKey) break;
                     }
 
                     System.out.println("Enter a destination file name to send the encrypted message('.txt' will be automatically added): ");
                     String outputFileSA = scanner.nextLine().trim().toLowerCase() + ".txt";
 
-                    FileManager decryptedFileSA = new FileManager(inputFileSA, dencryptKeySA, outputFileSA);
+                    FileManager decryptedFileSA = new FileManager(inputFileSA, decryptKeyIntSA, outputFileSA);
 
                     Cipher decryptedMessageSA = new Cipher(decryptedFileSA.readFile());
 
-                    decryptedMessageSA.encrypt(decryptedFileSA.getEncryptionKey());
+                    decryptedMessageSA.decrypt(decryptedFileSA.getEncryptionKey());
+
+                    FileManager.writeFile(decryptedMessageSA.getDecryptedMessage(), outputFileSA);
 
                     System.out.println(decryptedMessageSA.getDecryptedMessage());
                     break;
+                default:
+                    continue;
             }
         }
     }

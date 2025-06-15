@@ -1,0 +1,24 @@
+    Message 1
+Decrypted: The scroll is secure. The target, Sasuke, remains at large.
+Key: 10
+Encrypted: 'rojCmByvvjsCjComEBobj'rojDkBqoDcj"kCEuocjBowksxCjkDjvkBqob
+
+    Message 2
+Decrypted: Intel confirmed: Akatsuki meeting at the Valley of the End.
+Key: 25
+Encrypted: ?MSDKyBNMEHQLDCuyZJzSRTJHyLDDSHMFyzSySGDylzKKDXyNEySGDy'MCq
+
+    Message 3
+Decrypted: The Jinchuriki is vulnerable. Awaiting orders for extraction.
+Key: 8
+Encrypted: ,pmhRqvkpCzqsqhqAhDCtvmzijtm hIEiqBqvohwzlmzAhnwzhmFBzikBqwv
+
+    Message 4
+Decrypted: Itachi's crow delivered the message. The plan is a go.
+Key: 33
+Encrypted: g.HJOPBZGJYV'GKLSP"LYLKG.OLGTLZZHNLyGrOLGWSHUGPZGHGNVy
+
+    Message 5
+Decrypted: Orochimaru's hideout compromised. Evacuate immediately!
+Key: 18
+Encrypted: Gfgy'auifkgi'jquxkwzgygaujfaujkx,vG'kuozk'zkuauasszktB
