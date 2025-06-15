@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 class Main {
@@ -21,7 +22,7 @@ class Main {
             {
                 MenuHelper.selectService(selectedInt, scanner);
             }
-            catch (IllegalArgumentException e)
+            catch (IOException e)
             {
                 System.out.println(e.getMessage());
             }

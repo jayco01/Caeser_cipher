@@ -4,7 +4,6 @@ import java.util.Scanner;
 public class MenuHelper {
     private MenuHelper() {}
 
-
     public static void printMenu() {
         System.out.println();
         System.out.println("Choose a Service:\n" +
@@ -15,6 +14,11 @@ public class MenuHelper {
                 "0. Exit");
     }
 
+    /**
+     * Controls which obects are made and which functonalities are called
+     * @param selectedInt The user's menu choice.
+     * @param scanner The Scanner object for reading further user input.
+     */
     public static void selectService(int selectedInt, Scanner scanner) throws IOException {
         System.out.println();
         switch (selectedInt) {

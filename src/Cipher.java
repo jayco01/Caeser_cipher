@@ -13,6 +13,8 @@ public class Cipher {
     public String getDecryptedMessage() { return decryptedMessage;}
     public int getEncryptionKey() { return encryptionKey;}
 
+
+    //A set of common English words used in my brute-force algorithm
     private final HashSet<String> ENGLISH_WORDS = new HashSet<>(Arrays.asList(
             "the", "be", "to", "of", "and", "a", "in", "that", "have", "i", "it", "for", "not",
             "on", "with", "he", "as", "you", "do", "at", "this", "but", "his", "by", "from",
@@ -25,8 +27,17 @@ public class Cipher {
             "new", "want", "because", "any", "these", "give", "day", "most", "us"
     ));
 
+    //most common letters in the English language, including the space character.
     private final char[] COMMON_ENGLISH_LETTERS = {' ','e', 't', 'a', 'o', 'i', 'n', 's', 'h', 'r'};
 
+
+    /**
+     * Constructor for the Cipher class
+     *
+     * @param rawMessage The raw string to be processed.
+     * @param encryptionKey The integer key for the shift.
+     * @param forEncryption true when used for encryptint, false when used for decrypting.
+     */
     public Cipher(String rawMessage, int encryptionKey, boolean forEncryption) {
         this.rawMessage = rawMessage;
         this.encryptionKey = encryptionKey;
@@ -38,7 +49,7 @@ public class Cipher {
     };
 
     //
-    // Alphabet Array
+    // Create the alphabet Array by combining lowercase letters, uppercase letters, space, and common punctuation.
     //
     public static final char[] ALPHABET = buildAlphabet();
     private static char[] buildAlphabet() {
@@ -137,6 +148,7 @@ public class Cipher {
     // Helper Methods
     //
 
+    //Finds the index of a character within the ALPHABET array.
     private int findCharPosition(Character character) {
         for (int i = 0; i < ALPHABET.length; i++) {
             if(ALPHABET[i] == character) return i;
