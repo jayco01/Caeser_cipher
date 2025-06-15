@@ -3,8 +3,12 @@ import java.util.Scanner;
 
 class Main {
     public static void main(String[] args) throws Exception {
-        Scanner scanner = new Scanner(System.in);
 
+        /*
+        *   Use the Example.txt File for examples use cases.
+        */
+
+        Scanner scanner = new Scanner(System.in);
         String selected = "";
         boolean selectedIsValid = false;
         while (true) {
