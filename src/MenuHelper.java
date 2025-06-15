@@ -4,33 +4,19 @@ import java.util.Scanner;
 public class MenuHelper {
     private MenuHelper() {}
 
-    public record filesAndKey(String inputFilePath, String outputFilePath, int key){};
 
     public static void printMenu() {
-        System.out.println("1. Encryption\n" +
+        System.out.println();
+        System.out.println("Choose a Service:\n" +
+                "1. Encryption\n" +
                 "2. Decryption with key\n" +
                 "3. Brute force\n" +
                 "4. Statistical analysis\n" +
                 "0. Exit");
     }
 
-    public static filesAndKey inputFileAndKey() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Enter input file path: ");
-        String inputFilePath = scanner.nextLine().trim();
-
-        System.out.print("Enter output file path: ");
-        String outputFilePath = scanner.nextLine().trim();
-
-        System.out.print("Enter key: ");
-        int key = scanner.nextInt();
-
-        return new filesAndKey(inputFilePath, outputFilePath, key);
-    }
-
-
     public static void selectService(int selectedInt, Scanner scanner) throws IOException {
+        System.out.println();
         switch (selectedInt) {
             case 1:
                 String inputFileEn = getInputFileEn("Enter the file name of the message to be encrypted('.txt' will be automatically added): ",
@@ -42,11 +28,9 @@ public class MenuHelper {
 
                 String outputFileEn = getOutputFileEn(scanner);
 
-                FileManager encryptedFile = new FileManager(inputFileEn, encryptKeyInt, outputFileEn);
+                FileManager encryptedFile = new FileManager(inputFileEn, outputFileEn);
 
-                Cipher encryptedMessage = new Cipher(encryptedFile.readFile());
-
-                encryptedMessage.encrypt(encryptedFile.getEncryptionKey());
+                Cipher encryptedMessage = new Cipher(encryptedFile.readFile(), encryptKeyInt, true);
 
                 FileManager.writeFile(encryptedMessage.getEncryptedMessage(), outputFileEn);
 
@@ -64,14 +48,15 @@ public class MenuHelper {
 
                 String outputFileDe = getOutputFileEn(scanner);
 
-                FileManager decryptedFile = new FileManager(inputFileDe, decryptKeyInt, outputFileDe);
+                FileManager decryptedFile = new FileManager(inputFileDe, outputFileDe);
 
-                Cipher decryptedMessage = new Cipher(decryptedFile.readFile());
+                Cipher decryptedMessage = new Cipher(decryptedFile.readFile(), decryptKeyInt, false);
 
                 FileManager.writeFile(decryptedMessage.getDecryptedMessage(), outputFileDe);
 
                 System.out.println(decryptedMessage.getDecryptedMessage());
                 break;
+
 
             case 3:
                 String inputFileBruteForce = getInputFileEn("Enter the file name of the message to be decrypted('.txt' will be automatically added): ",
@@ -79,19 +64,17 @@ public class MenuHelper {
                         "Enter the message to be decrypted: ");
                 if (inputFileBruteForce == null) break;
 
-                int decryptKeyIntBF = getKeyInt(scanner);
 
                 String outputFileBruteForce = getOutputFileEn(scanner);
 
-                FileManager decryptedFileBruteForce = new FileManager(inputFileBruteForce, decryptKeyIntBF, outputFileBruteForce);
+                FileManager decryptedFileBruteForce = new FileManager(inputFileBruteForce, outputFileBruteForce);
 
-                Cipher decryptedMessageBF = new Cipher(decryptedFileBruteForce.readFile());
+                Cipher decryptedMessageBF = new Cipher(decryptedFileBruteForce.readFile(), 0, false);
 
-                decryptedMessageBF.decrypt(decryptedFileBruteForce.getEncryptionKey());
+                String messgeBF = decryptedMessageBF.decryptByBruteForce();
+                FileManager.writeFile(messgeBF, outputFileBruteForce);
 
-                FileManager.writeFile(decryptedMessageBF.getDecryptedMessage(), outputFileBruteForce);
-
-                System.out.println(decryptedMessageBF.getDecryptedMessage());
+                System.out.println(messgeBF);
                 break;
 
 
@@ -101,19 +84,17 @@ public class MenuHelper {
                         "Enter the message to be decrypted: ");
                 if (inputFileSA == null) break;
 
-                int decryptKeyIntSA = getKeyInt(scanner);
 
                 String outputFileSA = getOutputFileEn(scanner);
 
-                FileManager decryptedFileSA = new FileManager(inputFileSA, decryptKeyIntSA, outputFileSA);
+                FileManager decryptedFileSA = new FileManager(inputFileSA, outputFileSA);
 
-                Cipher decryptedMessageSA = new Cipher(decryptedFileSA.readFile());
+                Cipher decryptedMessageSA = new Cipher(decryptedFileSA.readFile(), 0, false);
 
-                decryptedMessageSA.decrypt(decryptedFileSA.getEncryptionKey());
+                String messageSA = decryptedMessageSA.statisticalAnalysis(decryptedMessageSA.getRawMessage());
 
-                FileManager.writeFile(decryptedMessageSA.getDecryptedMessage(), outputFileSA);
+                FileManager.writeFile(messageSA, outputFileSA);
 
-                System.out.println(decryptedMessageSA.getDecryptedMessage());
                 break;
             default:
                 return;
@@ -122,8 +103,7 @@ public class MenuHelper {
 
     private static String getOutputFileEn(Scanner scanner) {
         System.out.println("Enter a destination file name to send the encrypted message('.txt' will be automatically added): ");
-        String outputFileEn = scanner.nextLine().trim().toLowerCase() + ".txt";
-        return outputFileEn;
+        return scanner.nextLine().trim().toLowerCase() + ".txt";
     }
 
     private static int getKeyInt(Scanner scanner) {

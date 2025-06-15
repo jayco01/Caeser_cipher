@@ -1,7 +1,7 @@
     Message 1
 Decrypted: The scroll is secure. The target, Sasuke, remains at large.
-Key: 10
-Encrypted: 'rojCmByvvjsCjComEBobj'rojDkBqoDcj"kCEuocjBowksxCjkDjvkBqob
+Key: 25
+Encrypted: jGDyRBQNKKyHRyRDBTQDqyjGDySzQFDSryizRTJDryQDLzHMRyzSyKzQFDq
 
     Message 2
 Decrypted: Intel confirmed: Akatsuki meeting at the Valley of the End.

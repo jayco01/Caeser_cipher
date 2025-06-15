@@ -14,16 +14,15 @@ class Main {
             selectedIsValid = Validator.isValidMenuOption(selected);
 
             int selectedInt = (selectedIsValid) ? Integer.parseInt(selected) : -1;
-            if (selectedInt == 0) {
-                break;
-            } else if (selectedInt == -1) {
-                continue;
-            }
+            if (selectedInt == 0) { break; }
+            else if (selectedInt == -1) { continue; }
 
             try
             {
-            MenuHelper.selectService(selectedInt, scanner);
-            } catch (Exception e) {
+                MenuHelper.selectService(selectedInt, scanner);
+            }
+            catch (IllegalArgumentException e)
+            {
                 System.out.println(e.getMessage());
             }
         }

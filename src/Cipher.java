@@ -6,10 +6,12 @@ public class Cipher {
     private String rawMessage;
     private String encryptedMessage;
     private String decryptedMessage;
+    private int encryptionKey;
 
     public String getRawMessage() { return rawMessage;}
     public String getEncryptedMessage() { return encryptedMessage;}
     public String getDecryptedMessage() { return decryptedMessage;}
+    public int getEncryptionKey() { return encryptionKey;}
 
     private final HashSet<String> ENGLISH_WORDS = new HashSet<>(Arrays.asList(
             "the", "be", "to", "of", "and", "a", "in", "that", "have", "i", "it", "for", "not",
@@ -23,10 +25,16 @@ public class Cipher {
             "new", "want", "because", "any", "these", "give", "day", "most", "us"
     ));
 
-    private final char[] COMMON_ENGLISH_LETTERS = {'e', 't', 'a', 'o', 'i', 'n', 's', 'h', 'r'};
+    private final char[] COMMON_ENGLISH_LETTERS = {' ','e', 't', 'a', 'o', 'i', 'n', 's', 'h', 'r'};
 
-    public Cipher(String rawMessage){
+    public Cipher(String rawMessage, int encryptionKey, boolean forEncryption) {
         this.rawMessage = rawMessage;
+        this.encryptionKey = encryptionKey;
+        if (forEncryption) {
+           this.encryptedMessage = encrypt(encryptionKey);
+        } else {
+            this.decryptedMessage = decrypt(encryptionKey);
+        }
     };
 
     //
@@ -53,12 +61,16 @@ public class Cipher {
     //
     // Methods for encryption, decryption, brute force, statistical analysis
     //
-    public void encrypt(int key) {
+    public String encrypt(int key) {
         StringBuilder encryptedMessage = new StringBuilder();
         for (char c : rawMessage.toCharArray()) {
             int position = findCharPosition(c);
-
-            if (position == -1) continue;
+            if (position == -1)
+            {
+                //Append as is if the character is not in the alphabet
+                encryptedMessage.append(c);
+                continue;
+            }
 
             int newPosition = setNewPosition(position, key, true);
 
@@ -66,14 +78,21 @@ public class Cipher {
 
         }
         this.encryptedMessage = encryptedMessage.toString();
+        return this.encryptedMessage;
     }
 
     public String decrypt(int key) {
         StringBuilder decryptedMessage = new StringBuilder();
-        for (char c : encryptedMessage.toCharArray()) {
+        for (char c : rawMessage.toCharArray()) {
             int position = findCharPosition(c);
-            if (position == -1) continue;
+            if (position == -1)
+            {
+                //Append as is if the character is not in the alphabet
+                decryptedMessage.append(c);
+                continue;
+            }
             int newPosition = setNewPosition(position, key, false);
+
             decryptedMessage.append(ALPHABET[newPosition]);
         }
         this.decryptedMessage = decryptedMessage.toString();
@@ -81,7 +100,7 @@ public class Cipher {
     }
 
 
-    public String decryptByBruteForce(String encryptedText) {
+    public String decryptByBruteForce() {
         int englighWordsCount = Integer.MIN_VALUE;
         String decryptedMessage = "";
         for (int i = 0; i < ALPHABET.length; i++) {
@@ -105,6 +124,8 @@ public class Cipher {
 
         int[] possibleKeys = getPossibleKeys(postionOfHighestFrequency);
 
+        System.out.println();
+        System.out.println("***Here are the possible messages***");
         for(int number : possibleKeys) {
             System.out.println(decrypt(number));
         }
@@ -126,7 +147,7 @@ public class Cipher {
     //add position length if the current position with key is negative,
     //this wraps the position in reverse when "decrypting"
     private int setNewPosition(int position, int key, boolean toEncrypt) {
-        int positionWithKey = (toEncrypt) ? position + key : position - key + ALPHABET.length;
+        int positionWithKey = (toEncrypt) ? position + key: position - key + ALPHABET.length;
 
         return (positionWithKey % ALPHABET.length);
     }
@@ -164,9 +185,7 @@ public class Cipher {
                 postionOfHighestFrequency = i;
             }
         }
-        System.out.println("Highest frequency Number: " + highestFrequency
-                + "\nPostion of highest frequency: " + postionOfHighestFrequency
-                + "\nLetter in highest frequency: " + ALPHABET[postionOfHighestFrequency]);
+
         return postionOfHighestFrequency;
     }
 
