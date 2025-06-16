@@ -211,9 +211,9 @@ public class Cipher {
 
 
     private void printPossibleSAMessages(int[] possibleKeys) {
-        System.out.println("\n***Here are the possible messages***\n");
+        System.out.println("\n***Here are the possible messages***");
         for(int number : possibleKeys) {
-            System.out.println("If the key is " + ((number + ALPHABET.length) % ALPHABET.length) + ", then the message is\n");
+            System.out.println("\nIf the key is " + ((number + ALPHABET.length) % ALPHABET.length) + ", then the message is");
             System.out.println(decrypt(number));
         }
     }
