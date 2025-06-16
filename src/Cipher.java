@@ -84,7 +84,6 @@ public class Cipher {
             int newPosition = setNewPosition(position, key, true);
 
             encryptedMessage.append(ALPHABET[newPosition]);
-
         }
         this.encryptedMessage = encryptedMessage.toString();
         return this.encryptedMessage;
@@ -108,7 +107,6 @@ public class Cipher {
         return this.decryptedMessage;
     }
 
-
     public String decryptByBruteForce() {
         int englishWordsCount = Integer.MIN_VALUE;
         String decryptedMessage = "";
@@ -123,6 +121,8 @@ public class Cipher {
                 possibleEncryptionKeyBF = i;
             }
         }
+        // This violates the SRP, but I don't know how to print the key with the message if I cant return both
+        // I didn't think it was worth creating a helper method for 1 print statement
         System.out.println("\nIf the encryption key is " + possibleEncryptionKeyBF + ", then the message is\n" +
                 "   " + decryptedMessage);
         return decryptedMessage;
@@ -205,7 +205,6 @@ public class Cipher {
             char commonLetter = COMMON_ENGLISH_LETTERS[i];
             int commonPosition = findCharPosition(commonLetter);
             possibleKeys[i] = positionOfMostFrequentChar - commonPosition;
-
         }
         return possibleKeys;
     }
