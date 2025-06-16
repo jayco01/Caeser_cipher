@@ -75,10 +75,10 @@ public class MenuHelper {
 
                 Cipher decryptedMessageBF = new Cipher(decryptedFileBruteForce.readFile(), 0, false);
 
-                String messgeBF = decryptedMessageBF.decryptByBruteForce();
-                FileManager.writeFile(messgeBF, outputFileBruteForce);
+                String messageBF = decryptedMessageBF.decryptByBruteForce();
+                FileManager.writeFile(messageBF, outputFileBruteForce);
 
-                System.out.println(messgeBF);
+                System.out.println(messageBF);
                 break;
 
 
