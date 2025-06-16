@@ -110,15 +110,15 @@ public class Cipher {
 
 
     public String decryptByBruteForce() {
-        int englighWordsCount = Integer.MIN_VALUE;
+        int englishWordsCount = Integer.MIN_VALUE;
         String decryptedMessage = "";
         for (int i = 0; i < ALPHABET.length; i++) {
             String message = decrypt(i);
-            int tempEnglighWordsCount = countEnglishWords(message);
-            if (tempEnglighWordsCount > englighWordsCount)
+            int tempEnglishWordsCount = countEnglishWords(message);
+            if (tempEnglishWordsCount > englishWordsCount)
             {
                 decryptedMessage = message;
-                englighWordsCount = tempEnglighWordsCount;
+                englishWordsCount = tempEnglishWordsCount;
             }
         }
         return decryptedMessage;
@@ -135,8 +135,6 @@ public class Cipher {
         printPossibleSAMessages(possibleKeys);
         return decrypt(possibleKeys[0]);
     }
-
-
 
 
     //
@@ -192,7 +190,6 @@ public class Cipher {
                 postionOfHighestFrequency = i;
             }
         }
-
         return postionOfHighestFrequency;
     }
 
