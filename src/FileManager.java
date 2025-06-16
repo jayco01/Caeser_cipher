@@ -1,4 +1,7 @@
-import java.io.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class FileManager {
 
@@ -7,28 +10,32 @@ public class FileManager {
     public String getInputFilePath() {return inputFilePath;}
     public String getOutputFilePath() {return outputFilePath;}
 
-    public FileManager(String inputFilepath, /*int encryptionKey ,*/String outputFilePath){
+    public FileManager(String inputFilepath, String outputFilePath){
         this.inputFilePath = inputFilepath;
         this.outputFilePath = outputFilePath;
     }
 
-    public String readFile() throws IOException {
-        StringBuilder fileContent = new StringBuilder();
-        String currentLine;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(this.inputFilePath))) {
-            while((currentLine = br.readLine()) != null) {
-                fileContent.append(currentLine);
-            }
-        }
-        return fileContent.toString();
+    //Reads the entire content of a file into a single string using Java NIO.2.
+    public String readFile() throws IOException {
+
+        Path path = Paths.get(this.inputFilePath);
+        return Files.readString(path);
     }
 
+    /**
+     * Writes the given string to a file using Java NIO.2.
+     * This method will overwrite the file if it already exists.
+     */
     public static void writeFile(String content, String fileName) throws IOException {
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
-            bw.write(content);
+        try {
+            Path path = Paths.get(fileName);
+            Files.writeString(path, content);
         } catch (IOException e) {
             System.out.println("Unable to write the file. Error: " + e.getMessage());
+            System.out.println(e.getStackTrace().toString());
+            throw e;
         }
     }
 }
+
