@@ -196,14 +196,14 @@ public class Cipher {
         return postionOfHighestFrequency;
     }
 
-    //Find the possible positions by subtracting the postionOfHighestFrequency to the most commonly used english letters
-    private int[] getPossibleKeys(int postionOfHighestFrequency) {
+    //Find the possible positions by subtracting the positionOfHighestFrequency to the most commonly used english letters
+    private int[] getPossibleKeys(int positionOfMostFrequentChar) {
         int numberOfPossibleKeys = 3;//Change this to the number of possible keys you want to output
         int[] possibleKeys = new int[numberOfPossibleKeys];
         for (int i = 0; i < numberOfPossibleKeys; i++) {
             char commonLetter = COMMON_ENGLISH_LETTERS[i];
             int commonPosition = findCharPosition(commonLetter);
-            possibleKeys[i] = postionOfHighestFrequency - commonPosition;
+            possibleKeys[i] = positionOfMostFrequentChar - commonPosition;
 
         }
         return possibleKeys;
@@ -211,9 +211,9 @@ public class Cipher {
 
 
     private void printPossibleSAMessages(int[] possibleKeys) {
-        System.out.println("***Here are the possible messages***");
+        System.out.println("\n***Here are the possible messages***\n");
         for(int number : possibleKeys) {
-            System.out.println("If the key is " + number + ", then the message is ");
+            System.out.println("If the key is " + ((number + ALPHABET.length) % ALPHABET.length) + ", then the message is\n");
             System.out.println(decrypt(number));
         }
     }
