@@ -78,7 +78,6 @@ public class MenuHelper {
                 String messageBF = decryptedMessageBF.decryptByBruteForce();
                 FileManager.writeFile(messageBF, outputFileBruteForce);
 
-                System.out.println(messageBF);
                 break;
 
 

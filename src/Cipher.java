@@ -112,6 +112,7 @@ public class Cipher {
     public String decryptByBruteForce() {
         int englishWordsCount = Integer.MIN_VALUE;
         String decryptedMessage = "";
+        int possibleEncryptionKeyBF = 0;
         for (int i = 0; i < ALPHABET.length; i++) {
             String message = decrypt(i);
             int tempEnglishWordsCount = countEnglishWords(message);
@@ -119,8 +120,11 @@ public class Cipher {
             {
                 decryptedMessage = message;
                 englishWordsCount = tempEnglishWordsCount;
+                possibleEncryptionKeyBF = i;
             }
         }
+        System.out.println("\nIf the encryption key is " + possibleEncryptionKeyBF + ", then the message is\n" +
+                "   " + decryptedMessage);
         return decryptedMessage;
     }
 
@@ -211,7 +215,7 @@ public class Cipher {
         System.out.println("\n***Here are the possible messages***");
         for(int number : possibleKeys) {
             System.out.println("\nIf the key is " + ((number + ALPHABET.length) % ALPHABET.length) + ", then the message is");
-            System.out.println(decrypt(number));
+            System.out.println("    " + decrypt(number));
         }
     }
 
