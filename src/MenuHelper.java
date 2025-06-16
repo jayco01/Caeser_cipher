@@ -123,17 +123,16 @@ public class MenuHelper {
         return encryptKeyInt;
     }
 
-    private static String getInputFileEn(String x, Scanner scanner, String x1, String x2) throws IOException {
-        System.out.println(x);
+    private static String getInputFileEn(String inputFile, Scanner scanner, String writeFileInput, String messageToEncrypt) throws IOException {
+        System.out.println(inputFile);
         String inputFileEn = scanner.nextLine().trim().toLowerCase() + ".txt";
         boolean inputFileExist = Validator.isFileExists(inputFileEn);
         if (!inputFileExist) {
-            System.out.println("File doesn't exist!");
-            System.out.println();
-            System.out.println(x1);
+            System.out.println("File doesn't exist!\n");
+            System.out.println(writeFileInput);
             String createChoice = scanner.nextLine().trim().toLowerCase();
             if (createChoice.equals("y")) {
-                System.out.println(x2);
+                System.out.println(messageToEncrypt);
                 String messageEn = scanner.nextLine().trim();
                 FileManager.writeFile(messageEn, inputFileEn);
             } else {
