@@ -33,7 +33,6 @@ public class Cipher {
 
     /**
      * Constructor for the Cipher class
-     *
      * @param rawMessage The raw string to be processed.
      * @param encryptionKey The integer key for the shift.
      * @param forEncryption true when used for encryptint, false when used for decrypting.
@@ -82,7 +81,6 @@ public class Cipher {
                 encryptedMessage.append(c);
                 continue;
             }
-
             int newPosition = setNewPosition(position, key, true);
 
             encryptedMessage.append(ALPHABET[newPosition]);
@@ -128,20 +126,17 @@ public class Cipher {
 
     public String statisticalAnalysis(String encryptedText) {
         char[] encryptedMessageChars = encryptedText.toCharArray();
-
         int[] charFrequencyArray = getCharFrequencyArray(encryptedMessageChars);
 
-        int postionOfHighestFrequency = getPositionOfHighestFrequency(charFrequencyArray);
+        int positionOfHighestFrequency = getPositionOfMostFrequentChar(charFrequencyArray);
 
-        int[] possibleKeys = getPossibleKeys(postionOfHighestFrequency);
+        int[] possibleKeys = getPossibleKeys(positionOfHighestFrequency);
 
-        System.out.println();
-        System.out.println("***Here are the possible messages***");
-        for(int number : possibleKeys) {
-            System.out.println(decrypt(number));
-        }
+        printPossibleSAMessages(possibleKeys);
         return decrypt(possibleKeys[0]);
     }
+
+
 
 
     //
@@ -188,7 +183,7 @@ public class Cipher {
     }
 
     //find the letter that has the highest occurrence in the encrypted message
-    private static int getPositionOfHighestFrequency(int[] charFrequencyArray) {
+    private static int getPositionOfMostFrequentChar(int[] charFrequencyArray) {
         int highestFrequency = 0;
         int postionOfHighestFrequency = 0;
         for (int i = 0; i < charFrequencyArray.length; i++) {
@@ -212,6 +207,15 @@ public class Cipher {
 
         }
         return possibleKeys;
+    }
+
+
+    private void printPossibleSAMessages(int[] possibleKeys) {
+        System.out.println("***Here are the possible messages***");
+        for(int number : possibleKeys) {
+            System.out.println("If the key is " + number + ", then the message is ");
+            System.out.println(decrypt(number));
+        }
     }
 
 }

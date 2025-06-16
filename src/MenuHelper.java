@@ -101,7 +101,7 @@ public class MenuHelper {
 
                 break;
             default:
-                return;
+                System.out.println("Please enter a valid Service.");
         }
     }
 
